@@ -135,8 +135,7 @@ class NLBlockND(nn.Module):
 
 
 if __name__ == '__main__':
-    import torch
-
+    
     for bn_layer in [True, False]:
         img = torch.zeros(2, 3, 20)
         net = NLBlockND(in_channels=3, mode='concatenate', dimension=1, bn_layer=bn_layer)

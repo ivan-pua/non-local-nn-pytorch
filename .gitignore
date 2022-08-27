@@ -3,3 +3,4 @@ data/
 checkpoint/
 *.txt
 plot_loss.ipynb
+**/.DS_Store
