@@ -29,7 +29,10 @@ def main(args):
     # Data
     print('==> Preparing data..')
 
+    # Paramaters to Play around with 
     img_size = 128
+
+    # Preprocessing Steps
     transform_train = transforms.Compose([
         # transforms.RandomCrop(32, padding=4),
         # transforms.RandomHorizontalFlip(),
@@ -44,9 +47,11 @@ def main(args):
         transforms.Normalize(IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD),
     ])
 
+    # Change path to image folder
     trainset = torchvision.datasets.ImageFolder(root='../ChestXRays/train2', transform=transform_train)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=16, shuffle=True, num_workers=2)
 
+    # Change path to image folder
     testset = torchvision.datasets.ImageFolder(root='../ChestXRays/val2', transform=transform_test)
     testloader = torch.utils.data.DataLoader(testset, batch_size=16, shuffle=True, num_workers=2)
 
@@ -60,8 +65,6 @@ def main(args):
     else:
         print("ResNet-56 without non-local block..")
         net = resnet2D56(non_local=False)
-
-
 
     net = net.to(device)
 
@@ -80,6 +83,7 @@ def main(args):
         best_acc = checkpoint['acc']
         start_epoch = checkpoint['epoch']
 
+    # Parameters to modify
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[100, 150], last_epoch=start_epoch - 1)
